@@ -39,10 +39,13 @@ articleView.populateFilters = function() {
 };
 
 articleView.handleAuthorFilter = function() {
-  console.log('author-filter start');
+
   $('#author-filter').on('change', function() {
+    console.log('author-filter start');
     // REVIEW: Inside this function, "this" is the element that triggered the event handler function we are defining. "$(this)" is using jQuery to select that element (analogous to event.target that we have seen before), so we can chain jQuery methods onto it.
     if ($(this).val()) {
+      console.log('this val', $(this).val());
+      console.log('this ', $(this));
       // DONE: If the <select> menu was changed to an option that has a value, we first need to hide all the articles, and then show just the ones that match for the author that was selected.
       // Use an "attribute selector" to find those articles, and fade them in for the reader.
 
@@ -50,7 +53,7 @@ articleView.handleAuthorFilter = function() {
       $('article').hide();
 
       //Show just for THIS author
-      $(this).attr('data-author').fadein(750);
+      $(`article[data-author='${$(this).val()}']`).show();
 
 
     } else {
@@ -74,7 +77,7 @@ articleView.handleCategoryFilter = function() {
   $('#category-filter').on('change', function() {
     if ($(this).val()) {
       $('article').hide();
-      $(this).attr('data-category').fadein(750);
+      $(`article[data-category='${$(this).val()}']`).show();
     } else {
       $('article').fadein(750);
       $('.template').hide();
@@ -86,16 +89,19 @@ articleView.handleCategoryFilter = function() {
 };
 
 articleView.handleMainNav = function() {
+  console.log('before click tab', $('.tab'));
   // DONE: Add an event handler to .main-nav elements that will power the Tabs feature.
   // Clicking any .tab element should hide all the .tab-content sections, and then reveal the single .tab-content section that is associated with the clicked .tab element.
   // So: You need to dynamically build a selector string with the correct ID, based on the data available to you on the .tab element that was clicked.
 
   $('.tab').click(function() {
     $('.tab-content').hide();
+    $(this).show();
+    console.log('this was clicked!', $(this));
   });
 
   // REVIEW: Now trigger a click on the first .tab element, to set up the page.
-  $('.main-nav .tab:first').click();
+  // $('.main-nav .tab:first').click();
 };
 
 articleView.setTeasers = function() {
@@ -114,7 +120,7 @@ $(document).ready(function() {
   articleView.populateFilters();
   articleView.handleAuthorFilter();
   articleView.handleCategoryFilter();
-  // articleView.handleMainNav();
+  articleView.handleMainNav();
   // articleView.setTeasers();
 
 
